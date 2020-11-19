@@ -23,7 +23,7 @@ $ reqi install slack_send.yml
 $ reqi do slack/send
 ```
 
-# Mange request templates
+# Manage request templates
 
 ### Install template
 
