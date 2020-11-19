@@ -15,9 +15,25 @@ func SaveRequestTpl(tpl requesttpl.RequestTpl) error {
 	if err != nil {
 		return err
 	}
-	insertTpl, _ := db.Prepare("INSERT INTO request_templates(name, description, url, method, body) values(?, ?, ?, ?, ?)")
-	insertTpl.Exec(tpl.Name, tpl.Description, tpl.URL, tpl.Method, tpl.Body)
-	return nil
+	insertTpl, err := db.Prepare("INSERT INTO request_templates(name, description, url, method, body) values(?, ?, ?, ?, ?)")
+	if err != nil {
+		return err
+	}
+	_, err = insertTpl.Exec(tpl.Name, tpl.Description, tpl.URL, tpl.Method, tpl.Body)
+	return err
+}
+
+func DeleteRequestTpl(tplName string) error {
+	db, err := getDB()
+	if err != nil {
+		return err
+	}
+	deleteTpl, err := db.Prepare("DELETE FROM request_templates WHERE name=?")
+	if err != nil {
+		return err
+	}
+	_, err = deleteTpl.Exec(tplName)
+	return err
 }
 
 func GetRequestTpl(tplName string) (*requesttpl.RequestTpl, error) {
