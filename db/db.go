@@ -11,6 +11,7 @@ import (
 )
 
 func SaveRequestTpl(tpl requesttpl.RequestTpl) error {
+	DeleteRequestTpl(tpl.Name)
 	db, err := getDB()
 	if err != nil {
 		return err
@@ -45,6 +46,7 @@ func GetRequestTpl(tplName string) (*requesttpl.RequestTpl, error) {
 	rows.Next()
 	var name, description, url, method, body string
 	rows.Scan(&name, &description, &url, &method, &body)
+	rows.Close()
 	return requesttpl.New(name, description, url, method, body), nil
 }
 
@@ -66,6 +68,7 @@ func GetRequestTpls() ([]*requesttpl.RequestTpl, error) {
 		}
 		tpls = append(tpls, requesttpl.New(name, description, url, method, body))
 	}
+	rows.Close()
 	return tpls, nil
 }
 
