@@ -23,6 +23,17 @@ $ reqi install slack_send.yml
 $ reqi do slack/send
 ```
 
+# Show installed request templates
+
+```
+$ reqi templates
++-------------+--------------------+
+|    NAME     |    DESCRIPTION     |
++-------------+--------------------+
+| slack/send  | Send slack message |
++-------------+--------------------+
+```
+
 # Build from sources
 
 1. Clone repo
