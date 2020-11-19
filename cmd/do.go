@@ -24,12 +24,14 @@ var doCmd = &cobra.Command{
 		tplName := args[0]
 		tpl, err := db.GetRequestTpl(tplName)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			return
 		}
 		r := request.New(tpl, http.NewClient())
 		resp, err := r.Execute()
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			return
 		}
 		fmt.Println(resp)
 	},

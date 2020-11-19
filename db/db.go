@@ -2,6 +2,7 @@ package db
 
 import (
 	"database/sql"
+	"errors"
 	"os"
 	"os/user"
 
@@ -43,12 +44,18 @@ func GetRequestTpl(tplName string) (*requesttpl.RequestTpl, error) {
 	if err != nil {
 		return nil, err
 	}
-	rows, _ := db.Query("SELECT name, description, url, method, body FROM request_templates WHERE name=?", tplName)
-	rows.Next()
+	row := db.QueryRow("SELECT name, description, url, method, body FROM request_templates WHERE name=?", tplName)
+
 	var name, description, url, body string
 	var method http.HTTPMethod
-	rows.Scan(&name, &description, &url, &method, &body)
-	rows.Close()
+	switch err = row.Scan(&name, &description, &url, &method, &body); err {
+	case nil:
+	case sql.ErrNoRows:
+		return nil, errors.New("template not found")
+	default:
+		return nil, err
+	}
+
 	return requesttpl.New(name, description, url, method, body), nil
 }
 
