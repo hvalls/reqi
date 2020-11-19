@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"reqi/db"
-	"reqi/httpclient"
+	"reqi/http"
 	"reqi/request"
 
 	"github.com/spf13/cobra"
@@ -26,7 +26,7 @@ var doCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		r := request.New(tpl, httpclient.New())
+		r := request.New(tpl, http.NewClient())
 		resp, err := r.Execute()
 		if err != nil {
 			panic(err)

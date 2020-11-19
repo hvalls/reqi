@@ -2,17 +2,17 @@ package request
 
 import (
 	"errors"
-	"reqi/httpclient"
+	"reqi/http"
 	"reqi/requesttpl"
 	"strings"
 )
 
 type Request struct {
 	Template *requesttpl.RequestTpl
-	client   httpclient.HTTPClient
+	client   http.HTTPClient
 }
 
-func New(tpl *requesttpl.RequestTpl, client httpclient.HTTPClient) *Request {
+func New(tpl *requesttpl.RequestTpl, client http.HTTPClient) *Request {
 	return &Request{tpl, client}
 }
 

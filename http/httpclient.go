@@ -1,4 +1,4 @@
-package httpclient
+package http
 
 import (
 	"io/ioutil"
@@ -21,7 +21,7 @@ func (client *DefaultHTTPClient) DoPost(url, body string) (string, error) {
 	return getBody(http.Post(url, "application/json", strings.NewReader(body)))
 }
 
-func New() HTTPClient {
+func NewClient() HTTPClient {
 	return &DefaultHTTPClient{}
 }
 
