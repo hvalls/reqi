@@ -42,3 +42,4 @@ reqi v0.0.1
 - Support for parameters
 - Improve documentation/help
 - Show, edit and delete request templates
+- Support for headers
