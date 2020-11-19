@@ -36,6 +36,7 @@ $ ./reqi version
 
 # TODO
 
-- Improve errors presentation
+- Improve errors messages
 - Support for PUT, DELETE and PATCH methods
 - Support for parameters
+- Improve documentation/help
