@@ -18,6 +18,10 @@ func EditText(content string) (string, error) {
 
 	_, err = f.WriteString(content)
 	if err != nil {
+		err = os.Remove(filename)
+		if err != nil {
+			return "", err
+		}
 		return "", err
 	}
 	f.Close()
@@ -29,6 +33,10 @@ func EditText(content string) (string, error) {
 
 	executable, err := exec.LookPath(editor)
 	if err != nil {
+		err = os.Remove(filename)
+		if err != nil {
+			return "", err
+		}
 		return "", err
 	}
 
@@ -44,6 +52,10 @@ func EditText(content string) (string, error) {
 
 	newContent, err := ioutil.ReadFile(filename)
 	if err != nil {
+		err = os.Remove(filename)
+		if err != nil {
+			return "", err
+		}
 		return "", err
 	}
 

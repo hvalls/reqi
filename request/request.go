@@ -1,42 +1,28 @@
 package request
 
 import (
-	"fmt"
-	"io/ioutil"
-	"log"
-	"net/http"
+	"errors"
+	"reqi/httpclient"
 	"reqi/requesttpl"
 	"strings"
 )
 
 type Request struct {
 	Template *requesttpl.RequestTpl
+	client   httpclient.HTTPClient
 }
 
-func New(tpl *requesttpl.RequestTpl) *Request {
-	return &Request{tpl}
+func New(tpl *requesttpl.RequestTpl, client httpclient.HTTPClient) *Request {
+	return &Request{tpl, client}
 }
 
-func (r *Request) Execute() {
+func (r *Request) Execute() (string, error) {
 	method := strings.ToLower(r.Template.Method)
 	if method == "get" {
-		r, err := http.Get(r.Template.URL)
-		if err != nil {
-			log.Fatal(err)
-		} else {
-			b, _ := ioutil.ReadAll(r.Body)
-			fmt.Println(string(b))
-		}
-		return
+		return r.client.DoGet(r.Template.URL)
 	}
 	if method == "post" {
-		r, err := http.Post(r.Template.URL, "application/json", strings.NewReader(r.Template.Body))
-		if err != nil {
-			log.Fatal(err)
-		} else {
-			b, _ := ioutil.ReadAll(r.Body)
-			fmt.Println(string(b))
-		}
-		return
+		return r.client.DoPost(r.Template.URL, r.Template.Body)
 	}
+	return "", errors.New("http method not supported")
 }

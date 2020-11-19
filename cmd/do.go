@@ -2,8 +2,10 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 
 	"reqi/db"
+	"reqi/httpclient"
 	"reqi/request"
 
 	"github.com/spf13/cobra"
@@ -24,7 +26,11 @@ var doCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		r := request.New(tpl)
-		r.Execute()
+		r := request.New(tpl, httpclient.New())
+		resp, err := r.Execute()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(resp)
 	},
 }
