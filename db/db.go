@@ -32,6 +32,27 @@ func GetRequestTpl(tplName string) (*requesttpl.RequestTpl, error) {
 	return requesttpl.New(name, description, url, method, body), nil
 }
 
+func GetRequestTpls() ([]*requesttpl.RequestTpl, error) {
+	db, err := getDB()
+	if err != nil {
+		return nil, err
+	}
+	rows, err := db.Query("SELECT name, description, url, method, body FROM request_templates")
+	if err != nil {
+		return nil, err
+	}
+	var tpls []*requesttpl.RequestTpl
+	var name, description, url, method, body string
+	for rows.Next() {
+		err := rows.Scan(&name, &description, &url, &method, &body)
+		if err != nil {
+			return nil, err
+		}
+		tpls = append(tpls, requesttpl.New(name, description, url, method, body))
+	}
+	return tpls, nil
+}
+
 func getDB() (*sql.DB, error) {
 	usr, err := user.Current()
 	if err != nil {
