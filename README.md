@@ -66,3 +66,4 @@ reqi v0.0.1
 - Improve documentation/help
 - Edit request templates
 - Support for headers
+- Support for save output (-o option)
