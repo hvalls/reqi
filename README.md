@@ -41,6 +41,11 @@ $ reqi templates
 +-------------+--------------------+
 ```
 
+### Edit template
+```
+$ reqi edit slack/send
+```
+
 ### Uninstall template
 ```
 $ reqi uninstall slack/send
