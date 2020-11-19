@@ -7,6 +7,7 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
+	rootCmd.AddCommand(versionCmd)
 	rootCmd.AddCommand(installCmd)
 	rootCmd.AddCommand(doCmd)
 }
