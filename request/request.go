@@ -4,7 +4,6 @@ import (
 	"errors"
 	"reqi/http"
 	"reqi/requesttpl"
-	"strings"
 )
 
 type Request struct {
@@ -17,11 +16,10 @@ func New(tpl *requesttpl.RequestTpl, client http.HTTPClient) *Request {
 }
 
 func (r *Request) Execute() (string, error) {
-	method := strings.ToLower(r.Template.Method)
-	if method == "get" {
+	if r.Template.Method == "get" {
 		return r.client.DoGet(r.Template.URL)
 	}
-	if method == "post" {
+	if r.Template.Method == "post" {
 		return r.client.DoPost(r.Template.URL, r.Template.Body)
 	}
 	return "", errors.New("http method not supported")

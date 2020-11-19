@@ -7,6 +7,7 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 
+	"reqi/http"
 	"reqi/requesttpl"
 )
 
@@ -44,7 +45,8 @@ func GetRequestTpl(tplName string) (*requesttpl.RequestTpl, error) {
 	}
 	rows, _ := db.Query("SELECT name, description, url, method, body FROM request_templates WHERE name=?", tplName)
 	rows.Next()
-	var name, description, url, method, body string
+	var name, description, url, body string
+	var method http.HTTPMethod
 	rows.Scan(&name, &description, &url, &method, &body)
 	rows.Close()
 	return requesttpl.New(name, description, url, method, body), nil
@@ -60,7 +62,8 @@ func GetRequestTpls() ([]*requesttpl.RequestTpl, error) {
 		return nil, err
 	}
 	var tpls []*requesttpl.RequestTpl
-	var name, description, url, method, body string
+	var name, description, url, body string
+	var method http.HTTPMethod
 	for rows.Next() {
 		err := rows.Scan(&name, &description, &url, &method, &body)
 		if err != nil {
