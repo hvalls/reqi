@@ -27,7 +27,7 @@ $ reqi do slack/send
 
 ## install {template_file}
 
-Installs a template defined in {template_file} YAML file.
+Install a template defined in YAML file.
 
 *Example:*
 
@@ -54,7 +54,7 @@ $ reqi ls
 
 ## edit {template}
 
-Open text editor to edit {template} template definition.
+Open text editor to edit template definition.
 
 *Example:*
 
@@ -66,7 +66,7 @@ $ reqi edit slack/send
 
 ## uninstall {template}
 
-Uninstalls template.
+Uninstall template.
 
 *Example:*
 
@@ -78,7 +78,7 @@ $ reqi uninstall slack/send
 
 ## do {template}
 
-Executes request using template {template}.
+Execute request from template.
 
 *Example:*
 
