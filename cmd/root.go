@@ -11,7 +11,7 @@ func init() {
 	rootCmd.AddCommand(installCmd)
 	rootCmd.AddCommand(editCmd)
 	rootCmd.AddCommand(uninstallCmd)
-	rootCmd.AddCommand(templatesCmd)
+	rootCmd.AddCommand(lsCmd)
 	rootCmd.AddCommand(doCmd)
 }
 

@@ -8,9 +8,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var templatesCmd = &cobra.Command{
-	Use:   "templates",
-	Short: "Show installed templates",
+var lsCmd = &cobra.Command{
+	Use:   "ls",
+	Short: "List templates",
 	Run: func(cmd *cobra.Command, args []string) {
 
 		table := tablewriter.NewWriter(os.Stdout)

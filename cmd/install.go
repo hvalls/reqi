@@ -9,7 +9,6 @@ import (
 	"reqi/requesttpl"
 
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v1"
 )
 
 var installCmd = &cobra.Command{
@@ -27,8 +26,7 @@ var installCmd = &cobra.Command{
 		if err != nil {
 			panic(err)
 		}
-		var tpl requesttpl.RequestTpl
-		err = yaml.Unmarshal(yamlFile, &tpl)
+		tpl, err := requesttpl.NewYaml(yamlFile)
 		if err != nil {
 			panic(err)
 		}

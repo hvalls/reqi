@@ -2,13 +2,14 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
+	"os"
 
 	"reqi/db"
 	"reqi/editor"
 	"reqi/requesttpl"
 
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v2"
 )
 
 var editCmd = &cobra.Command{
@@ -24,24 +25,28 @@ var editCmd = &cobra.Command{
 		tplName := args[0]
 		tpl, err := db.GetRequestTpl(tplName)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 		tplString, err := tpl.String()
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 		newYaml, err := editor.EditText(tplString)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
-		var newTpl requesttpl.RequestTpl
-		err = yaml.Unmarshal([]byte(newYaml), &newTpl)
+		newTpl, err := requesttpl.NewYaml([]byte(newYaml))
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 		err = db.SaveRequestTpl(newTpl)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 	},
 }

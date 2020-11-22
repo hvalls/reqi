@@ -12,7 +12,7 @@ import (
 	"reqi/requesttpl"
 )
 
-func SaveRequestTpl(tpl requesttpl.RequestTpl) error {
+func SaveRequestTpl(tpl *requesttpl.RequestTpl) error {
 	DeleteRequestTpl(tpl.Name)
 	db, err := getDB()
 	if err != nil {
