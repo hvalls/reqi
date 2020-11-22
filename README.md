@@ -51,7 +51,15 @@ $ reqi edit slack/send
 $ reqi uninstall slack/send
 ```
 
-# Build from sources
+# Execute requests
+
+e.g.
+
+```
+$ reqi do slack/send
+```
+
+# Installing from sources
 
 1. Clone repo
 2. `cd` to repo root dir
@@ -65,7 +73,6 @@ reqi v0.0.1
 
 # TODO
 
-- Improve errors messages
 - Support for PUT, DELETE and PATCH methods
 - Support for parameters
 - Improve documentation/help
