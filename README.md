@@ -1,4 +1,4 @@
-# How to use it
+# Getting started
 
 1. Create YAML file representing a request template. e.g.
 
@@ -11,13 +11,13 @@ method: post
 body: "{ \"text\": \"This is a test message\" }"
 ```
 
-2. Install request template:
+2. Install template:
 
 ```
 $ reqi install slack_send.yml
 ```
 
-3. Run your request using template name:
+3. Execute request from template:
 
 ```
 $ reqi do slack/send
