@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"reqi/db"
@@ -24,15 +26,18 @@ var installCmd = &cobra.Command{
 		filename, _ := filepath.Abs(args[0])
 		yamlFile, err := ioutil.ReadFile(filename)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 		tpl, err := requesttpl.NewYaml(yamlFile)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 		err = db.SaveRequestTpl(tpl)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 	},
 }

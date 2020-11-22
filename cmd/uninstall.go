@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
+	"os"
 
 	"reqi/db"
 
@@ -21,7 +23,8 @@ var uninstallCmd = &cobra.Command{
 		tplName := args[0]
 		err := db.DeleteRequestTpl(tplName)
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 	},
 }

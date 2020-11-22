@@ -3,6 +3,7 @@ package cmd
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"reqi/db"
 	"reqi/http"
@@ -25,13 +26,13 @@ var doCmd = &cobra.Command{
 		tpl, err := db.GetRequestTpl(tplName)
 		if err != nil {
 			fmt.Println(err)
-			return
+			os.Exit(1)
 		}
 		r := request.New(tpl, http.NewClient())
 		resp, err := r.Execute()
 		if err != nil {
 			fmt.Println(err)
-			return
+			os.Exit(1)
 		}
 		fmt.Println(resp)
 	},

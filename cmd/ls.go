@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"os"
 	"reqi/db"
 
@@ -18,7 +19,8 @@ var lsCmd = &cobra.Command{
 
 		tpls, err := db.GetRequestTpls()
 		if err != nil {
-			panic(err)
+			fmt.Println(err)
+			os.Exit(1)
 		}
 		for _, tpl := range tpls {
 			row := []string{tpl.Name, tpl.Description}
