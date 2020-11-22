@@ -32,7 +32,12 @@ func newMap(values map[string]string) (*RequestTpl, error) {
 	if err != nil {
 		return nil, err
 	}
-	return New(values["name"], values["description"], values["url"], method, values["body"]), nil
+	url := values["url"]
+	err = http.ValidateURL(url)
+	if err != nil {
+		return nil, err
+	}
+	return New(values["name"], values["description"], url, method, values["body"]), nil
 }
 
 func (tpl *RequestTpl) String() (string, error) {
