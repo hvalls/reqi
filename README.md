@@ -102,6 +102,5 @@ reqi v0.0.1
 
 - Support for PUT, DELETE and PATCH methods
 - Support for parameters
-- Improve documentation/help
 - Support for headers
 - Support for save output (-o option)
