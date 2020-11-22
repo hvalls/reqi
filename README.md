@@ -23,17 +23,26 @@ $ reqi install slack_send.yml
 $ reqi do slack/send
 ```
 
-# Manage request templates
+# Commands
 
-### Install template
+## install {template_file}
+
+Installs a template defined in {template_file} YAML file.
+
+*Example:*
 
 ```
 $ reqi install slack_send.yml
 ```
+---
+## ls
 
-### Show installed templates
+List installed templates.
+
+*Example:*
+
 ```
-$ reqi templates
+$ reqi ls
 +-------------+--------------------+
 |    NAME     |    DESCRIPTION     |
 +-------------+--------------------+
@@ -41,19 +50,37 @@ $ reqi templates
 +-------------+--------------------+
 ```
 
-### Edit template
+---
+
+## edit {template}
+
+Open text editor to edit {template} template definition.
+
+*Example:*
+
 ```
 $ reqi edit slack/send
 ```
 
-### Uninstall template
+---
+
+## uninstall {template}
+
+Uninstalls template.
+
+*Example:*
+
 ```
 $ reqi uninstall slack/send
 ```
 
-# Execute requests
+---
 
-e.g.
+## do {template}
+
+Executes request using template {template}.
+
+*Example:*
 
 ```
 $ reqi do slack/send
