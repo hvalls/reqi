@@ -88,7 +88,7 @@ $ reqi do slack/send -o result.json
 
 OPTIONS:
 
-- **-o**: Save result in file
+- **-o** (optional): Save result in file
 
 # Installing from sources
 
