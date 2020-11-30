@@ -83,8 +83,12 @@ Execute request from template.
 *Example:*
 
 ```
-$ reqi do slack/send
+$ reqi do slack/send -o result.json
 ```
+
+OPTIONS:
+
+- **-o**: Save result in file
 
 # Installing from sources
 
@@ -100,7 +104,6 @@ reqi v0.0.1
 
 # TODO
 
-- Support for PUT, DELETE and PATCH methods
-- Support for parameters
 - Support for headers
-- Support for save output (-o option)
+- Support for parameters
+- Support for PUT, DELETE and PATCH methods
