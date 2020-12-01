@@ -106,4 +106,4 @@ reqi v0.0.1
 
 - Support for headers
 - Support for parameters
-- Support for PUT, DELETE and PATCH methods
+- Support for DELETE and PATCH methods
