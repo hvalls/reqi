@@ -16,11 +16,14 @@ func New(tpl *requesttpl.RequestTpl, client http.HTTPClient) *Request {
 }
 
 func (r *Request) Execute() (string, error) {
-	if r.Template.Method == http.Get {
+	switch method := r.Template.Method; method {
+	case http.Get:
 		return r.client.DoGet(r.Template.URL)
-	}
-	if r.Template.Method == http.Post {
+	case http.Post:
 		return r.client.DoPost(r.Template.URL, r.Template.Body)
+	case http.Put:
+		return r.client.DoPut(r.Template.URL, r.Template.Body)
+	default:
+		return "", errors.New("http method not supported")
 	}
-	return "", errors.New("http method not supported")
 }

@@ -6,9 +6,12 @@ import (
 	"strings"
 )
 
+const contentType = "application/json; charset=utf-8"
+
 type HTTPClient interface {
 	DoGet(url string) (string, error)
 	DoPost(url, body string) (string, error)
+	DoPut(url, body string) (string, error)
 }
 
 type DefaultHTTPClient struct{}
@@ -18,7 +21,17 @@ func (client *DefaultHTTPClient) DoGet(url string) (string, error) {
 }
 
 func (client *DefaultHTTPClient) DoPost(url, body string) (string, error) {
-	return getBody(http.Post(url, "application/json", strings.NewReader(body)))
+	return getBody(http.Post(url, contentType, strings.NewReader(body)))
+}
+
+func (client *DefaultHTTPClient) DoPut(url, body string) (string, error) {
+	req, err := http.NewRequest(http.MethodPut, url, strings.NewReader(body))
+	if err != nil {
+		return "", err
+	}
+	req.Header.Set("Content-Type", contentType)
+	cli := &http.Client{}
+	return getBody(cli.Do(req))
 }
 
 func NewClient() HTTPClient {
