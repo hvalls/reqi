@@ -9,27 +9,41 @@ import (
 const contentType = "application/json; charset=utf-8"
 
 type HTTPClient interface {
-	DoGet(url string) (string, error)
-	DoPost(url, body string) (string, error)
-	DoPut(url, body string) (string, error)
+	DoGet(url string, headers []*HTTPHeader) (string, error)
+	DoPost(url, body string, headers []*HTTPHeader) (string, error)
+	DoPut(url, body string, headers []*HTTPHeader) (string, error)
 }
 
 type DefaultHTTPClient struct{}
 
-func (client *DefaultHTTPClient) DoGet(url string) (string, error) {
-	return getBody(http.Get(url))
+func (client *DefaultHTTPClient) DoGet(url string, headers []*HTTPHeader) (string, error) {
+	req, err := http.NewRequest(http.MethodGet, url, nil)
+	if err != nil {
+		return "", err
+	}
+	return prepareAndExec(req, headers)
 }
 
-func (client *DefaultHTTPClient) DoPost(url, body string) (string, error) {
-	return getBody(http.Post(url, contentType, strings.NewReader(body)))
+func (client *DefaultHTTPClient) DoPost(url, body string, headers []*HTTPHeader) (string, error) {
+	req, err := http.NewRequest(http.MethodPost, url, strings.NewReader(body))
+	if err != nil {
+		return "", err
+	}
+	return prepareAndExec(req, headers)
 }
 
-func (client *DefaultHTTPClient) DoPut(url, body string) (string, error) {
+func (client *DefaultHTTPClient) DoPut(url, body string, headers []*HTTPHeader) (string, error) {
 	req, err := http.NewRequest(http.MethodPut, url, strings.NewReader(body))
 	if err != nil {
 		return "", err
 	}
-	req.Header.Set("Content-Type", contentType)
+	return prepareAndExec(req, headers)
+}
+
+func prepareAndExec(req *http.Request, headers []*HTTPHeader) (string, error) {
+	for _, h := range headers {
+		req.Header.Set(h.Name, h.Value)
+	}
 	cli := &http.Client{}
 	return getBody(cli.Do(req))
 }

@@ -18,11 +18,11 @@ func New(tpl *requesttpl.RequestTpl, client http.HTTPClient) *Request {
 func (r *Request) Execute() (string, error) {
 	switch method := r.Template.Method; method {
 	case http.Get:
-		return r.client.DoGet(r.Template.URL)
+		return r.client.DoGet(r.Template.URL, r.Template.Headers)
 	case http.Post:
-		return r.client.DoPost(r.Template.URL, r.Template.Body)
+		return r.client.DoPost(r.Template.URL, r.Template.Body, r.Template.Headers)
 	case http.Put:
-		return r.client.DoPut(r.Template.URL, r.Template.Body)
+		return r.client.DoPut(r.Template.URL, r.Template.Body, r.Template.Headers)
 	default:
 		return "", errors.New("http method not supported")
 	}

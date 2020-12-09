@@ -14,7 +14,7 @@ import (
 
 var editCmd = &cobra.Command{
 	Use:   "edit",
-	Short: "Execute request",
+	Short: "Edit request template",
 	Args: func(cmd *cobra.Command, args []string) error {
 		if len(args) < 1 {
 			return errors.New("request template is required")

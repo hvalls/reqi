@@ -9,6 +9,9 @@ description: Send slack message
 url: https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXXXX/XXXXXXXXXXXXXX
 method: post
 body: "{ \"text\": \"This is a test message\" }"
+headers:
+  - name: Authorization
+    value: Basic aGVsbG8=
 ```
 
 2. Install template:
@@ -104,6 +107,5 @@ reqi v0.0.1
 
 # TODO
 
-- Support for headers
 - Support for parameters
 - Support for DELETE and PATCH methods

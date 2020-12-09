@@ -8,7 +8,6 @@ import (
 
 	_ "github.com/mattn/go-sqlite3"
 
-	"reqi/http"
 	"reqi/requesttpl"
 )
 
@@ -18,11 +17,15 @@ func SaveRequestTpl(tpl *requesttpl.RequestTpl) error {
 	if err != nil {
 		return err
 	}
-	insertTpl, err := db.Prepare("INSERT INTO request_templates(name, description, url, method, body) values(?, ?, ?, ?, ?)")
+	insertTpl, err := db.Prepare("INSERT INTO request_templates(name, definition) values(?, ?)")
 	if err != nil {
 		return err
 	}
-	_, err = insertTpl.Exec(tpl.Name, tpl.Description, tpl.URL, tpl.Method, tpl.Body)
+	str, err := tpl.String()
+	if err != nil {
+		return err
+	}
+	_, err = insertTpl.Exec(tpl.Name, str)
 	return err
 }
 
@@ -44,19 +47,16 @@ func GetRequestTpl(tplName string) (*requesttpl.RequestTpl, error) {
 	if err != nil {
 		return nil, err
 	}
-	row := db.QueryRow("SELECT name, description, url, method, body FROM request_templates WHERE name=?", tplName)
-
-	var name, description, url, body string
-	var method http.HTTPMethod
-	switch err = row.Scan(&name, &description, &url, &method, &body); err {
+	row := db.QueryRow("SELECT name, definition FROM request_templates WHERE name=?", tplName)
+	var name, definition string
+	switch err = row.Scan(&name, &definition); err {
 	case nil:
 	case sql.ErrNoRows:
 		return nil, errors.New("template not found")
 	default:
 		return nil, err
 	}
-
-	return requesttpl.New(name, description, url, method, body), nil
+	return requesttpl.NewYaml([]byte(definition))
 }
 
 func GetRequestTpls() ([]*requesttpl.RequestTpl, error) {
@@ -64,19 +64,22 @@ func GetRequestTpls() ([]*requesttpl.RequestTpl, error) {
 	if err != nil {
 		return nil, err
 	}
-	rows, err := db.Query("SELECT name, description, url, method, body FROM request_templates")
+	rows, err := db.Query("SELECT name, definition FROM request_templates")
 	if err != nil {
 		return nil, err
 	}
 	var tpls []*requesttpl.RequestTpl
-	var name, description, url, body string
-	var method http.HTTPMethod
+	var name, definition string
 	for rows.Next() {
-		err := rows.Scan(&name, &description, &url, &method, &body)
+		err := rows.Scan(&name, &definition)
 		if err != nil {
 			return nil, err
 		}
-		tpls = append(tpls, requesttpl.New(name, description, url, method, body))
+		tpl, err := requesttpl.NewYaml([]byte(definition))
+		if err != nil {
+			return nil, err
+		}
+		tpls = append(tpls, tpl)
 	}
 	rows.Close()
 	return tpls, nil
@@ -115,11 +118,8 @@ func initDB(reqiPath, dbPath string) (*sql.DB, error) {
 		return nil, err
 	}
 	_, err = db.Exec(`CREATE TABLE "request_templates" (
-		"name"	TEXT NOT NULL,
-		"description"	TEXT NOT NULL,
-		"url"	TEXT NOT NULL,
-		"method"	TEXT NOT NULL,
-		"body"	TEXT NOT NULL,
+		"name"			TEXT NOT NULL,
+		"definition"	TEXT NOT NULL,
 		PRIMARY KEY("name")
 	);`)
 	if err != nil {
