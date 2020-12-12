@@ -38,7 +38,7 @@ var editCmd = &cobra.Command{
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		newTpl, err := requesttpl.NewYaml([]byte(newYaml))
+		newTpl, err := requesttpl.NewYaml(newYaml)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)

@@ -86,12 +86,33 @@ Execute request from template.
 *Example:*
 
 ```
-$ reqi do slack/send -o result.json
+$ reqi do slack/send -p "message=Hello" -o result.json
 ```
 
 OPTIONS:
 
-- **-o** (optional): Save result in file
+- **-p** (optional): Resolve template parameter
+- **-o** (optional): Save result to file
+
+## Parameters
+
+You can use template parameters in fields:
+- url
+- headers
+- body
+ 
+using "{{ param }}" notation, and resolve them using **-p** option (see "do" command above). e.g:
+
+```
+name: product/get
+description: Get product info
+url: "https://api.example.com/products/{{ id }}"
+method: get
+```
+
+```
+$ reqi do product/get -p "id=12"
+```
 
 # Installing from sources
 
@@ -107,5 +128,4 @@ reqi v0.0.1
 
 # TODO
 
-- Support for parameters
 - Support for DELETE and PATCH methods

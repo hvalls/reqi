@@ -56,7 +56,7 @@ func GetRequestTpl(tplName string) (*requesttpl.RequestTpl, error) {
 	default:
 		return nil, err
 	}
-	return requesttpl.NewYaml([]byte(definition))
+	return requesttpl.NewYaml(definition)
 }
 
 func GetRequestTpls() ([]*requesttpl.RequestTpl, error) {
@@ -75,7 +75,7 @@ func GetRequestTpls() ([]*requesttpl.RequestTpl, error) {
 		if err != nil {
 			return nil, err
 		}
-		tpl, err := requesttpl.NewYaml([]byte(definition))
+		tpl, err := requesttpl.NewYaml(definition)
 		if err != nil {
 			return nil, err
 		}

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"strings"
 
 	"reqi/db"
 	"reqi/http"
@@ -14,6 +15,7 @@ import (
 
 func init() {
 	doCmd.Flags().StringP("output", "o", "", "output file")
+	doCmd.Flags().StringArrayP("parameter", "p", []string{}, "parameter")
 }
 
 var doCmd = &cobra.Command{
@@ -33,7 +35,12 @@ var doCmd = &cobra.Command{
 			os.Exit(1)
 		}
 		r := request.New(tpl, http.NewClient())
-		resp, err := r.Execute()
+		params, err := getParams(cmd)
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		resp, err := r.Execute(params)
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
@@ -45,6 +52,25 @@ var doCmd = &cobra.Command{
 		}
 		fmt.Fprintln(writer, resp)
 	},
+}
+
+func getParams(cmd *cobra.Command) (map[string]string, error) {
+	pFlags, err := cmd.Flags().GetStringArray("parameter")
+	if err != nil {
+		return nil, err
+	}
+	if len(pFlags) == 0 {
+		return map[string]string{}, nil
+	}
+	params := make(map[string]string)
+	for _, p := range pFlags {
+		parts := strings.Split(p, "=")
+		if len(parts) != 2 {
+			return nil, errors.New("invalid parameter")
+		}
+		params[parts[0]] = parts[1]
+	}
+	return params, nil
 }
 
 func getWriter(cmd *cobra.Command) (*os.File, error) {

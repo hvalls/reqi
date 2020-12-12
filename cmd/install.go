@@ -29,7 +29,7 @@ var installCmd = &cobra.Command{
 			fmt.Println(err)
 			os.Exit(1)
 		}
-		tpl, err := requesttpl.NewYaml(yamlFile)
+		tpl, err := requesttpl.NewYaml(string(yamlFile))
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)

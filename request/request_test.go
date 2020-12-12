@@ -11,7 +11,7 @@ func TestExecuteGet(t *testing.T) {
 	client := &MockHTTPClient{false, false, false}
 	r := New(tpl, client)
 
-	r.Execute()
+	r.Execute(map[string]string{})
 
 	if !client.DoGetCalled {
 		t.Errorf("client.DoGet should be called")
@@ -23,7 +23,7 @@ func TestExecutePost(t *testing.T) {
 	client := &MockHTTPClient{false, false, false}
 	r := New(tpl, client)
 
-	r.Execute()
+	r.Execute(map[string]string{})
 
 	if !client.DoPostCalled {
 		t.Errorf("client.DoPost should be called")
@@ -35,7 +35,7 @@ func TestExecutePut(t *testing.T) {
 	client := &MockHTTPClient{false, false, false}
 	r := New(tpl, client)
 
-	r.Execute()
+	r.Execute(map[string]string{})
 
 	if !client.DoPutCalled {
 		t.Errorf("client.DoPut should be called")
