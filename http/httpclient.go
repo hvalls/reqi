@@ -25,6 +25,7 @@ func (client *DefaultHTTPClient) DoGet(url string, headers []*HTTPHeader) (strin
 }
 
 func (client *DefaultHTTPClient) DoPost(url, body string, headers []*HTTPHeader) (string, error) {
+
 	req, err := http.NewRequest(http.MethodPost, url, strings.NewReader(body))
 	if err != nil {
 		return "", err

@@ -22,7 +22,7 @@ func (rtpl *RequestTpl) ResolveURL(params map[string]string) (string, error) {
 }
 
 func (rtpl *RequestTpl) ResolveBody(params map[string]string) (string, error) {
-	return resolve(rtpl.URL, "body", params)
+	return resolve(rtpl.Body, "body", params)
 }
 
 func (rtpl *RequestTpl) ResolveHeaders(params map[string]string) ([]*http.HTTPHeader, error) {
